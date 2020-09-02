@@ -1,0 +1,10 @@
+{% load i18n %}{% autoescape off %}
+{% blocktrans %}Hello {{name}}, {% endblocktrans %}
+{% blocktrans %}This is to confirm that you have successfully changed your password associated with {{ platform_name }}. Please sign-in to your account.{% endblocktrans %}
+
+{{ login_link }}
+
+{% trans "Best regards," %}
+{% blocktrans %}The {{ platform_name }} Team {% endblocktrans %}
+{% endautoescape %}
+
