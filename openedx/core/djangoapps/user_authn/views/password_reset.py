@@ -54,8 +54,10 @@ log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
 
 
-def get_ace_email_params(user):
-    """Get ace email params for user."""
+def get_user_default_email_params(user):
+    """
+    Get default email params for the user.
+    """
     site = get_current_site()
     message_context = get_base_template_context(site)
     user_language_pref = get_user_preference(user, LANGUAGE_KEY)
@@ -108,15 +110,15 @@ def get_password_reset_form():
     return form_desc
 
 
-def send_password_reset_success_email_to_user(user, request):
+def send_password_reset_success_email(user, request):
     """
-    Send out an email to user indicating that password reset was successful.
+    Send an email to user indicating that password reset was successful.
 
     Arguments:
         user (User): Django User object
         request (HttpRequest): Django request object
     """
-    message_context, user_language_preference = get_ace_email_params(user)
+    message_context, user_language_preference = get_user_default_email_params(user)
     lms_root_url = configuration_helpers.get_value('LMS_ROOT_URL', settings.LMS_ROOT_URL)
     message_context.update(
         {'login_link': '{}/login'.format(lms_root_url), 'request': request, }
@@ -127,7 +129,10 @@ def send_password_reset_success_email_to_user(user, request):
         language=user_language_preference,
         user_context={"name": user.profile.name},
     )
-    ace.send(msg)
+    try:
+        ace.send(msg)
+    except Exception:  # pylint: disable=broad-except
+        log.exception('Could not send email for password reset confirmation to user %s', user.username)
 
 
 def send_password_reset_email_for_user(user, request, preferred_email=None):
@@ -139,7 +144,7 @@ def send_password_reset_email_for_user(user, request, preferred_email=None):
         request (HttpRequest): Django request object
         preferred_email (str): Send email to this address if present, otherwise fallback to user's email address.
     """
-    message_context, user_language_preference = get_ace_email_params(user)
+    message_context, user_language_preference = get_user_default_email_params(user)
     message_context.update({
         'request': request,  # Used by google_analytics_tracking_pixel
         # TODO: This overrides `platform_name` from `get_base_template_context` to make the tests passes
@@ -503,7 +508,7 @@ class PasswordResetConfirmWrapper(PasswordResetConfirmView):
         if password_reset_successful and is_account_recovery:
             self._handle_password_creation(request, updated_user)
 
-        send_password_reset_success_email_to_user(updated_user, request)
+        send_password_reset_success_email(updated_user, request)
         return response
 
     def dispatch(self, *args, **kwargs):

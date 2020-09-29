@@ -4,7 +4,3 @@
 
 {{ login_link }}
 
-{% trans "Best regards," %}
-{% blocktrans %}The {{ platform_name }} Team {% endblocktrans %}
-{% endautoescape %}
-
