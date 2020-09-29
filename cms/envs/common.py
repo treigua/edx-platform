@@ -286,8 +286,6 @@ FEATURES = {
     # Special Exams, aka Timed and Proctored Exams
     'ENABLE_SPECIAL_EXAMS': False,
 
-    'ORGANIZATIONS_APP': False,
-
     # Show the language selector in the header
     'SHOW_HEADER_LANGUAGE_SELECTOR': False,
 
@@ -334,6 +332,17 @@ FEATURES = {
     'SHOW_FOOTER_LANGUAGE_SELECTOR': False,
     'ENABLE_ENROLLMENT_RESET': False,
     'DISABLE_MOBILE_COURSE_AVAILABLE': False,
+
+    # .. toggle_name: STRICT_ORGANIZATIONS
+    # .. toggle_implementation: DjangoSetting
+    # .. toggle_default: False
+    # .. toggle_description: Set to True to require that org slugs of new course runs and
+    #   libraries refer to existing Organizations in the database. If left as False,
+    #   then creating a course run or library for an unknown Oranization will cause a new
+    #   Organization to automatically be created.
+    # .. toggle_use_cases: open_edx
+    # .. toggle_creation_date: 2020-09-29
+    'STRICT_ORGANIZATIONS': False,
 
     # .. toggle_name: ENABLE_CHANGE_USER_PASSWORD_ADMIN
     # .. toggle_implementation: DjangoSetting

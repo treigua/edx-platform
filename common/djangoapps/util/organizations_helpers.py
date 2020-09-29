@@ -5,46 +5,22 @@ Utility library for working with the edx-organizations app
 
 from django.conf import settings
 from django.db.utils import DatabaseError
+from organizations import api as organizations_api
+from organizations.exceptions import InvalidOrganizationException
 
 
-def add_organization(organization_data):
-    """
-    Client API operation adapter/wrapper
-    """
-    if not organizations_enabled():
-        return None
-    from organizations import api as organizations_api
-    return organizations_api.add_organization(organization_data=organization_data)
-
-
-def add_organization_course(organization_data, course_id):
-    """
-    Client API operation adapter/wrapper
-    """
-    if not organizations_enabled():
-        return None
-    from organizations import api as organizations_api
-    return organizations_api.add_organization_course(organization_data=organization_data, course_key=course_id)
-
-
-def get_organization(organization_id):
-    """
-    Client API operation adapter/wrapper
-    """
-    if not organizations_enabled():
-        return []
-    from organizations import api as organizations_api
-    return organizations_api.get_organization(organization_id)
+# We re-export these functions from the Organizations API without modification.
+add_organization_course = organizations_api.add_organization
+add_organization_course = organizations_api.add_organization_course
+get_organization = organizations_api.get_organization
+get_organization_courses = organizations_api.get_organization_courses
+get_course_organizations = organizations_api.get_course_organizations
 
 
 def get_organization_by_short_name(organization_short_name):
     """
     Client API operation adapter/wrapper
     """
-    if not organizations_enabled():
-        return None
-    from organizations import api as organizations_api
-    from organizations.exceptions import InvalidOrganizationException
     try:
         return organizations_api.get_organization_by_short_name(organization_short_name)
     except InvalidOrganizationException:
@@ -55,9 +31,6 @@ def get_organizations():
     """
     Client API operation adapter/wrapper
     """
-    if not organizations_enabled():
-        return []
-    from organizations import api as organizations_api
     # Due to the way unit tests run for edx-platform, models are not yet available at the time
     # of Django admin form instantiation.  This unfortunately results in an invocation of the following
     # workflow, because the test configuration is (correctly) configured to exercise the application
@@ -67,26 +40,6 @@ def get_organizations():
         return organizations_api.get_organizations()
     except DatabaseError:
         return []
-
-
-def get_organization_courses(organization_id):
-    """
-    Client API operation adapter/wrapper
-    """
-    if not organizations_enabled():
-        return []
-    from organizations import api as organizations_api
-    return organizations_api.get_organization_courses(organization_id)
-
-
-def get_course_organizations(course_id):
-    """
-    Client API operation adapter/wrapper
-    """
-    if not organizations_enabled():
-        return []
-    from organizations import api as organizations_api
-    return organizations_api.get_course_organizations(course_id)
 
 
 def get_course_organization_id(course_id):
@@ -99,8 +52,8 @@ def get_course_organization_id(course_id):
     return None
 
 
-def organizations_enabled():
+def organization_strictness_enabled(course_id):
     """
-    Returns boolean indication if organizations app is enabled on not.
+    Returns whether
     """
-    return settings.FEATURES.get('ORGANIZATIONS_APP', False)
+    return bool(settings.get('STRICT_ORGANIZATIONS'))

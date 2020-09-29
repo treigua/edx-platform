@@ -161,7 +161,19 @@ class LibraryRootView(APIView):
         try:
             org = Organization.objects.get(short_name=org_name)
         except Organization.DoesNotExist:
-            raise ValidationError(detail={"org": "No such organization '{}' found.".format(org_name)})
+            org = None
+            if organization_strictness_enabled():
+                raise ValidationError(
+                    detail={"org": "No such organization '{}' found.".format(org_name)}
+                )
+        if not org:
+            logging.info(
+                "Creating new organization with short_name '%s'"
+                "during creation of new library with slug '%s'",
+                org.short_name,
+                data["slug"],
+            )
+            org_data = add_organization({"short_name": org, "name": org})
         try:
             result = api.create_library(org=org, **data)
         except api.LibraryAlreadyExists:
