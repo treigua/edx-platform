@@ -213,7 +213,7 @@ class UrlFormationTestCase(TestCase):
             pipeline.get_complete_url(provider_id)
 
 
-class TestPipelineUtilityFunctions(TestCase, test.TestCase):
+class TestPipelineUtilityFunctions(TestCase):
     """
     Test some of the isolated utility functions in the pipeline
     """
@@ -304,7 +304,7 @@ class TestPipelineUtilityFunctions(TestCase, test.TestCase):
 
 
 @ddt.ddt
-class EnsureUserInformationTestCase(testutil.TestCase, test.TestCase):
+class EnsureUserInformationTestCase(TestCase):
     """Tests ensuring that we have the necessary user information to proceed with the pipeline."""
 
     def setUp(self):
@@ -384,7 +384,7 @@ class EnsureUserInformationTestCase(testutil.TestCase, test.TestCase):
                     assert response.url == expected_redirect_url
 
 
-class UserDetailsForceSyncTestCase(testutil.TestCase, test.TestCase):
+class UserDetailsForceSyncTestCase(TestCase):
     """Tests to ensure learner profile data is properly synced if the provider requires it."""
 
     def setUp(self):
