@@ -142,6 +142,7 @@ def prepare_saml_response_from_xml(xml, relay_state='testshib'):
         saml_response=OneLogin_Saml2_Utils.escape_url(b64encoded_xml)
     )
 
+
 def skip_tpa_tests():
     if AUTH_FEATURE_ENABLED:
         return lambda func: func

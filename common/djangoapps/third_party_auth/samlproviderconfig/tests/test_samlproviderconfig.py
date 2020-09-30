@@ -18,7 +18,7 @@ from third_party_auth.tests.samlutils import set_jwt_cookie
 from third_party_auth.models import SAMLProviderConfig, SAMLConfiguration
 from third_party_auth.tests import testutil
 from third_party_auth.tests.utils import skip_tpa_tests
-from third_party_auth.utils import convert_saml_slug_provider_id,
+from third_party_auth.utils import convert_saml_slug_provider_id
 
 # country here refers to the URN provided by a user's IDP
 SINGLE_PROVIDER_CONFIG = {
