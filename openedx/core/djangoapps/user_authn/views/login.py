@@ -463,6 +463,7 @@ def login_user(request):
         _check_excessive_login_attempts(user)
 
         possibly_authenticated_user = user
+        is_login_micro_frontend_enabled = settings.FEATURES.get('ENABLE_LOGIN_MICROFRONTEND')
 
         if not is_user_third_party_authenticated:
             possibly_authenticated_user = _authenticate_first_party(request, user, third_party_auth_requested)
@@ -479,8 +480,9 @@ def login_user(request):
         if is_user_third_party_authenticated:
             running_pipeline = pipeline.get(request)
             redirect_url = pipeline.get_complete_url(backend_name=running_pipeline['backend'])
-        elif settings.FEATURES.get('ENABLE_LOGIN_MICROFRONTEND'):
-            redirect_url = get_next_url_for_login_page(request)
+
+        elif is_login_micro_frontend_enabled:
+            redirect_url = get_next_url_for_login_page(request, is_login_micro_frontend_enabled)
 
         response = JsonResponse({
             'success': True,

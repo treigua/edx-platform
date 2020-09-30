@@ -226,7 +226,7 @@ def check_verify_status_by_course(user, course_enrollments):
 POST_AUTH_PARAMS = ('course_id', 'enrollment_action', 'course_mode', 'email_opt_in', 'purchase_workflow')
 
 
-def get_next_url_for_login_page(request):
+def get_next_url_for_login_page(request, is_login_micro_frontend_enabled=False):
     """
     Determine the URL to redirect to following login/registration/third_party_auth
 
@@ -255,7 +255,7 @@ def get_next_url_for_login_page(request):
 
             if login_redirect_url:
                 try:
-                    redirect_to = settings.LMS_ROOT_URL + reverse(login_redirect_url)
+                    redirect_to = reverse(login_redirect_url)
                 except NoReverseMatch:
                     log.warning(
                         u'Default redirect after login doesn\'t exist: %(login_redirect_url)r. '
@@ -266,16 +266,24 @@ def get_next_url_for_login_page(request):
             # If redirect url isn't set, reverse to dashboard
             if not redirect_to:
                 # Tries reversing the LMS dashboard if the url doesn't exist
+                redirect_to = reverse('dashboard')
+
+            if is_login_micro_frontend_enabled:
                 redirect_to = settings.LMS_ROOT_URL + reverse('dashboard')
 
         elif settings.ROOT_URLCONF == 'cms.urls':
-            redirect_to = settings.CMS_BASE + reverse('home')
+            redirect_to = reverse('home')
+
+            if is_login_micro_frontend_enabled:
+                redirect_to = settings.CMS_BASE + reverse('home')
 
     if any(param in request_params for param in POST_AUTH_PARAMS):
         # Before we redirect to next/dashboard, we need to handle auto-enrollment:
         params = [(param, request_params[param]) for param in POST_AUTH_PARAMS if param in request_params]
         params.append(('next', redirect_to))  # After auto-enrollment, user will be sent to payment page or to this URL
-        redirect_to = '{}{}?{}'.format(settings.LMS_ROOT_URL, reverse('finish_auth'), urllib.parse.urlencode(params))
+        redirect_to = '{}?{}'.format(reverse('finish_auth'), urllib.parse.urlencode(params))
+        if is_login_micro_frontend_enabled:
+            redirect_to = '{}{}'.format(settings.LMS_ROOT_URL, redirect_to)
         # Note: if we are resuming a third party auth pipeline, then the next URL will already
         # be saved in the session as part of the pipeline state. That URL will take priority
         # over this one.
