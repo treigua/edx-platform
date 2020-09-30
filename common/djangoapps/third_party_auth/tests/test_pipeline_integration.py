@@ -22,7 +22,7 @@ from third_party_auth.tests.utils import skip_unless_thirdpartyauth
 User = social_models.DjangoStorage.user.user_model()  # pylint: disable=invalid-name
 
 
-@skip_tpa_tests()
+@skip_unless_thirdpartyauth()
 class TestCase(testutil.TestCase, test.TestCase):
     """Base test case."""
 

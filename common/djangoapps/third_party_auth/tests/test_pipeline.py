@@ -14,7 +14,8 @@ from third_party_auth.tests.specs.test_testshib import SamlIntegrationTestUtilit
 from third_party_auth.tests.testutil import simulate_running_pipeline
 from third_party_auth.tests.utils import skip_unless_thirdpartyauth
 
-@skip_tpa_tests()
+
+@skip_unless_thirdpartyauth()
 @ddt.ddt
 class ProviderUserStateTestCase(testutil.TestCase):
     """Tests ProviderUserState behavior."""
@@ -54,7 +55,7 @@ class ProviderUserStateTestCase(testutil.TestCase):
             self.assertEqual(idp_config['logout_url'], logout_url)
 
 
-@skip_tpa_tests()
+@skip_unless_thirdpartyauth()
 @ddt.ddt
 class PipelineOverridesTest(SamlIntegrationTestUtilities, IntegrationTestMixin, testutil.SAMLTestCase):
     """

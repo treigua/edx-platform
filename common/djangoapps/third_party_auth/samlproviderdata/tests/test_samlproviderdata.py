@@ -43,7 +43,7 @@ ENTERPRISE_ID = str(uuid4())
 BAD_ENTERPRISE_ID = str(uuid4())
 
 
-@skip_tpa_tests()
+@skip_unless_thirdpartyauth()
 class SAMLProviderDataTests(APITestCase):
     """
         API Tests for SAMLProviderConfig REST endpoints

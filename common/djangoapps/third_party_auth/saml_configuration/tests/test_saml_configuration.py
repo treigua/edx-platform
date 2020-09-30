@@ -45,7 +45,7 @@ PRIV_CONFIGURATIONS = [
 TEST_PASSWORD = 'testpwd'
 
 
-@skip_tpa_tests()
+@skip_unless_thirdpartyauth()
 class SAMLConfigurationTests(APITestCase):
     """
     API Tests for SAMLConfiguration objects retrieval.

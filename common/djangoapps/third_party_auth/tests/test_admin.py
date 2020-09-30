@@ -16,8 +16,9 @@ from third_party_auth.models import OAuth2ProviderConfig
 from third_party_auth.tests import testutil
 from third_party_auth.tests.utils import skip_unless_thirdpartyauth
 
+
 # This is necessary because cms does not implement third party auth
-@skip_tpa_tests()
+@skip_unless_thirdpartyauth()
 class Oauth2ProviderConfigAdminTest(testutil.TestCase):
     """
     Tests for oauth2 provider config admin

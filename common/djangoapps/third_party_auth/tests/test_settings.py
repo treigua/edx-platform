@@ -43,7 +43,7 @@ class SettingsUnitTest(testutil.TestCase):
         settings.apply_settings(self.settings)
         self.assertEqual(['auth_entry', 'next'], self.settings.FIELDS_STORED_IN_SESSION)
 
-    @skip_tpa_tests()
+    @skip_unless_thirdpartyauth()
     def test_apply_settings_enables_no_providers_by_default(self):
         # Providers are only enabled via ConfigurationModels in the database
         settings.apply_settings(self.settings)

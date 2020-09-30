@@ -17,7 +17,7 @@ SITE_DOMAIN_A = 'professionalx.example.com'
 SITE_DOMAIN_B = 'somethingelse.example.com'
 
 
-@skip_tpa_tests()
+@skip_unless_thirdpartyauth()
 class RegistryTest(testutil.TestCase):
     """Tests registry discovery and operation."""
 

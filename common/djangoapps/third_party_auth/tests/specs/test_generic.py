@@ -9,7 +9,7 @@ from third_party_auth.tests.utils import skip_unless_thirdpartyauth
 from .base import IntegrationTestMixin
 
 
-@skip_tpa_tests()
+@skip_unless_thirdpartyauth()
 class GenericIntegrationTest(IntegrationTestMixin, testutil.TestCase):
     """
     Basic integration tests of third_party_auth using Dummy provider
