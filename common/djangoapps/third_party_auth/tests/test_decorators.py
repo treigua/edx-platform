@@ -12,8 +12,7 @@ from django.test import RequestFactory
 
 from third_party_auth.decorators import xframe_allow_whitelisted
 from third_party_auth.tests.testutil import TestCase
-from third_party_auth.tests.utils import skip_tpa_tests
-
+from third_party_auth.tests.utils import skip_unless_thirdpartyauth
 
 @xframe_allow_whitelisted
 def mock_view(_request):

@@ -6,8 +6,7 @@ import ddt
 import unittest
 from third_party_auth.identityserver3 import IdentityServer3
 from third_party_auth.tests import testutil
-from third_party_auth.tests.utils import skip_tpa_tests
-
+from third_party_auth.tests.utils import skip_unless_thirdpartyauth
 
 @skip_tpa_tests()
 @ddt.ddt

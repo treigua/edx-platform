@@ -14,8 +14,7 @@ from student.tests.factories import UserFactory
 from third_party_auth.admin import OAuth2ProviderConfigAdmin
 from third_party_auth.models import OAuth2ProviderConfig
 from third_party_auth.tests import testutil
-from third_party_auth.tests.utils import skip_tpa_tests
-
+from third_party_auth.tests.utils import skip_unless_thirdpartyauth
 
 # This is necessary because cms does not implement third party auth
 @skip_tpa_tests()

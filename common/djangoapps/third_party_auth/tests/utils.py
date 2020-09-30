@@ -3,6 +3,7 @@
 
 import json
 from base64 import b64encode
+from unittest import skip
 
 import httpretty
 from onelogin.saml2.utils import OneLogin_Saml2_Utils
@@ -12,8 +13,6 @@ from social_core.backends.facebook import FacebookOAuth2
 from social_django.models import Partial, UserSocialAuth
 
 from student.tests.factories import UserFactory
-
-from unittest import skip
 
 from .testutil import ThirdPartyAuthTestMixin, AUTH_FEATURE_ENABLED, AUTH_FEATURES_KEY
 
@@ -143,7 +142,10 @@ def prepare_saml_response_from_xml(xml, relay_state='testshib'):
     )
 
 
-def skip_tpa_tests():
+def skip_unless_thirdpartyauth():
+    """
+    Wraps unittest.skip in consistent logic to skip certain third_party_auth tests in CMS.
+    """
     if AUTH_FEATURE_ENABLED:
         return lambda func: func
     return skip("%s not enabled" % AUTH_FEATURES_KEY)

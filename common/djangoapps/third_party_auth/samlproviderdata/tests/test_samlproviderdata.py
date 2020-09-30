@@ -16,8 +16,7 @@ from enterprise.constants import ENTERPRISE_ADMIN_ROLE, ENTERPRISE_LEARNER_ROLE
 from third_party_auth.tests import testutil
 from third_party_auth.models import SAMLProviderData, SAMLProviderConfig
 from third_party_auth.tests.samlutils import set_jwt_cookie
-from third_party_auth.tests.utils import skip_tpa_tests
-from third_party_auth.utils import convert_saml_slug_provider_id
+from third_party_auth.tests.utils import skip_unless_thirdpartyauthfrom third_party_auth.utils import convert_saml_slug_provider_id
 
 SINGLE_PROVIDER_CONFIG = {
     'entity_id': 'http://entity-id-1',

@@ -12,8 +12,7 @@ from third_party_auth.tests import testutil
 from third_party_auth.tests.specs.base import IntegrationTestMixin
 from third_party_auth.tests.specs.test_testshib import SamlIntegrationTestUtilities
 from third_party_auth.tests.testutil import simulate_running_pipeline
-from third_party_auth.tests.utils import skip_tpa_tests
-
+from third_party_auth.tests.utils import skip_unless_thirdpartyauth
 
 @skip_tpa_tests()
 @ddt.ddt

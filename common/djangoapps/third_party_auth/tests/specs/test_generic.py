@@ -5,8 +5,7 @@ Use the 'Dummy' auth provider for generic integration tests of third_party_auth.
 
 import unittest
 from third_party_auth.tests import testutil
-from third_party_auth.tests.utils import skip_tpa_tests
-
+from third_party_auth.tests.utils import skip_unless_thirdpartyauth
 from .base import IntegrationTestMixin
 
 

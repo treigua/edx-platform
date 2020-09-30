@@ -12,8 +12,7 @@ from mock import Mock, patch
 from openedx.core.djangoapps.site_configuration.tests.test_util import with_site_configuration
 from third_party_auth import provider
 from third_party_auth.tests import testutil
-from third_party_auth.tests.utils import skip_tpa_tests
-
+from third_party_auth.tests.utils import skip_unless_thirdpartyauth
 SITE_DOMAIN_A = 'professionalx.example.com'
 SITE_DOMAIN_B = 'somethingelse.example.com'
 
