@@ -6,7 +6,9 @@ from openedx.core.djangoapps.ace_common.message import BaseMessageType
 
 
 class PasswordReset(BaseMessageType):
-    """A message to the user with password reset link."""
+    """
+    A message to the user with password reset link.
+    """
     def __init__(self, *args, **kwargs):
         super(PasswordReset, self).__init__(*args, **kwargs)
 
